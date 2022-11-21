@@ -1,10 +1,13 @@
-import { useState } from "react";
+import useInput from "../hooks/use-input";
 const SimpleInput = (props) => {
-  const [enteredName, setEnteredName] = useState("");
-  const [nameIsTouched, setNameIstouched] = useState(false);
-
-  const nameIsValid = enteredName.trim() !== "";
-  const nameIsInvalid = !nameIsValid && nameIsTouched;
+  const {
+    enteredValue: enteredName,
+    valueIsValid: nameIsValid,
+    hasError: nameHasError,
+    valueChangeHander: nameChangeHandler,
+    valueBlurHandler: nameBlurHandler,
+    reset: resetNameInput,
+  } = useInput((enteredName) => enteredName.trim() !== "");
 
   const [enteredEmail, setEnteredEmail] = useState("");
   const [emailIsTouched, setEmailIstouched] = useState(false);
@@ -17,13 +20,6 @@ const SimpleInput = (props) => {
     formIsValid = true;
   }
 
-  const nameChangeHander = (event) => {
-    setEnteredName(event.target.value);
-  };
-  const nameBlurHandler = () => {
-    setNameIstouched(true);
-  };
-
   const emailChangeHander = (event) => {
     setEnteredEmail(event.target.value);
   };
@@ -33,19 +29,16 @@ const SimpleInput = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    setEmailIstouched(true);
-    setNameIstouched(true);
+
     if (!nameIsValid && !emailIsValid) {
       return;
     }
     console.log(enteredName);
     setEmailIstouched(false);
     setEnteredEmail("");
-
-    setNameIstouched(false);
-    setEnteredName("");
+    resetNameInput();
   };
-  const nameFormClass = nameIsInvalid ? "form-control invalid" : "form-control";
+  const nameFormClass = nameHasError ? "form-control invalid" : "form-control";
   const emailFormClass = emailIsInvalid
     ? "form-control invalid"
     : "form-control";
@@ -57,10 +50,10 @@ const SimpleInput = (props) => {
           type="text"
           id="name"
           value={enteredName}
-          onChange={nameChangeHander}
+          onChange={nameChangeHandler}
           onBlur={nameBlurHandler}
         />
-        {nameIsInvalid && (
+        {nameHasError && (
           <p className="error-text">Please enter a valid name.</p>
         )}
       </div>
