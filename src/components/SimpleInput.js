@@ -38,7 +38,7 @@ const SimpleInput = (props) => {
     if (!nameIsValid && !emailIsValid) {
       return;
     }
-    console.log(enteredEmail);
+    console.log(enteredName);
     setEmailIstouched(false);
     setEnteredEmail("");
 
