@@ -4,13 +4,13 @@ const SimpleInput = (props) => {
   const [nameIsTouched, setNameIstouched] = useState(false);
 
   const nameIsValid = enteredName.trim() !== "";
-  const nameIsInvalid = !enteredName && nameIsTouched;
+  const nameIsInvalid = !nameIsValid && nameIsTouched;
 
   const [enteredEmail, setEnteredEmail] = useState("");
   const [emailIsTouched, setEmailIstouched] = useState(false);
 
   const emailIsValid = enteredEmail.includes("@");
-  const emailIsInvalid = !enteredEmail && emailIsTouched;
+  const emailIsInvalid = !emailIsValid && emailIsTouched;
 
   let formIsValid = false;
   if (nameIsValid && emailIsValid) {
